@@ -1,11 +1,13 @@
 #include <stdexcept>
 #include <vector>
+#include <iostream>
 
 #include <windows.h>
 
 #include <GL/glew.h>
 #include <gl/gl.h>
 
+#include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -13,25 +15,15 @@
 
 #include "shaders.hpp"
 #include "tools.hpp"
+#include "globals.hpp"
+
+#include "components/mouseState.hpp"
+#include "components/screenInfo.hpp"
+#include "components/mvp.hpp"
 
 const bool fullScreen = false;
-const int width = 600;
-const int height = 600;
-
-shaders::ProgramId program;
-
-struct
-{
-	glm::mat4 mv { 1.0f };
-	glm::mat4 p { 1.0f };
-
-	glm::mat4 getMVP() const
-	{
-		return p * mv;
-	}
-} mvp;
-
-GLuint vertexArray;
+const bool console = true;
+const glm::ivec2 windowRes = { 800, 800 };
 
 const std::vector<glm::vec3> vertices = {
 	{-1, -1, 0},
@@ -45,27 +37,30 @@ const std::vector<unsigned> indices = {
 	1, 2, 3
 };
 
-void Initialize()
+shaders::ProgramId program;
+GLuint vertexArray;
+
+void OGLInitialize()
 {
 	const GLenum glewInitResult = glewInit();
 	assert(GLEW_OK == glewInitResult);
 
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 	glClearColor(0, 0, 0, 1);
 
 	glCreateVertexArrays(1, &vertexArray);
 	glBindVertexArray(vertexArray);
-		GLuint vertexBuffer;
-		glGenBuffers(1, &vertexBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices.front()), vertices.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-		glEnableVertexAttribArray(0);
+	GLuint vertexBuffer;
+	glGenBuffers(1, &vertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices.front()), vertices.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glEnableVertexAttribArray(0);
 
-		GLuint elementBuffer;
-		glGenBuffers(1, &elementBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(indices.front()), indices.data(), GL_STATIC_DRAW);
+	GLuint elementBuffer;
+	glGenBuffers(1, &elementBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(indices.front()), indices.data(), GL_STATIC_DRAW);
 	glBindVertexArray(0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -75,13 +70,23 @@ void Initialize()
 		{ {0, "bPos"} });
 }
 
+void Initialize()
+{
+	if (console)
+	{
+		tools::RedirectIOToConsole({ 800, 10 });
+	}
+	ShowCursor(false);
+	OGLInitialize();
+}
+
 void RenderScene()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glUseProgram(program);
 	glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE,
-		glm::value_ptr(mvp.getMVP()));
+		glm::value_ptr(Globals::mvp.getVP()));
 
 	glBindVertexArray(vertexArray);
 
@@ -90,19 +95,43 @@ void RenderScene()
 
 void PrepareFrame()
 {
+	const glm::ivec2 mouseDelta = Globals::mouseState.getMouseDelta();
+	std::cout << mouseDelta.x << " " << mouseDelta.y << std::endl;
+	tools::SetMousePos(Globals::screenInfo.windowCenterInScreenSpace);
 	RenderScene();
 }
 
-void ChangeSize(int w, int h)
+void ChangeWindowSize(glm::ivec2 size)
 {
-	glViewport(0, 0, w, h);
+	Globals::screenInfo.windowSize = { size.x, size.y };
 
-	const float ratio = (float)w / h;
-	mvp.p = glm::ortho(-10.0f * ratio, 10.0f * ratio, -10.0f, 10.0f);
+	glViewport(0, 0, size.x, size.y);
+
+	const float ratio = (float)size.x / size.y;
+	Globals::mvp.projection = glm::ortho(-10.0f * ratio, 10.0f * ratio, -10.0f, 10.0f);
+}
+
+void ChangeWindowLocation(glm::ivec2 location)
+{
+	Globals::screenInfo.windowCenterInScreenSpace = { location + Globals::screenInfo.windowSize / 2 };
+}
+
+void WindowLocationInitialized()
+{
+	tools::SetMousePos(Globals::screenInfo.windowCenterInScreenSpace);
+	Globals::mouseState.prevPosition = Globals::mouseState.position = Globals::screenInfo.windowCenterInScreenSpace;
 }
 
 void HandleKeyboard(bool const * const keys)
 {
+}
+
+void HandleMouse()
+{
+	POINT mousePos;
+	GetCursorPos(&mousePos);
+	Globals::mouseState.prevPosition = Globals::mouseState.position;
+	Globals::mouseState.position = { mousePos.x, mousePos.y };
 }
 
 void SetDCPixelFormat(HDC hDC)
@@ -134,12 +163,16 @@ static bool keys[256];
 static bool quit;
 static HDC hDC;
 
-LRESULT CALLBACK WndProc(HWND hWnd,
-						 UINT message,
-						 WPARAM wParam,
-						 LPARAM lParam)
+LRESULT CALLBACK WndProc(
+	HWND hWnd,
+	UINT message,
+	WPARAM wParam,
+	LPARAM lParam)
 {
 	static HGLRC hRC;
+	static bool locationInitialized = false;
+	static bool firstSize = true;
+	static bool firstMove = true;
 
 	switch(message)
 	{
@@ -159,8 +192,8 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 					MB_OK | MB_ICONEXCLAMATION);
 				ExitProcess(0);
 			}
-		}
 			break;
+		}
 		case WM_DESTROY:
 			wglMakeCurrent(hDC, nullptr);
 			wglDeleteContext(hRC);
@@ -168,8 +201,35 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 			quit = true;
 			break;
 		case WM_SIZE:
-			ChangeSize(LOWORD(lParam), HIWORD(lParam));
+		{
+			const glm::ivec2 size{ LOWORD(lParam), HIWORD(lParam) };
+			ChangeWindowSize(size);
+			if (firstSize)
+			{
+				if (!firstMove && !locationInitialized)
+				{
+					WindowLocationInitialized();
+					locationInitialized = true;
+				}
+				firstSize = false;
+			}
 			break;
+		}
+		case WM_MOVE:
+		{
+			const glm::ivec2 location{ LOWORD(lParam), HIWORD(lParam) };
+			ChangeWindowLocation(location);
+			if (firstMove)
+			{
+				if (!firstSize && !locationInitialized)
+				{
+					WindowLocationInitialized();
+					locationInitialized = true;
+				}
+				firstMove = false;
+			}
+			break;
+		}
 		case WM_KEYDOWN:
 			keys[wParam] = true;
 			break;
@@ -177,12 +237,16 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 			keys[wParam] = false;
 			break;
 		case WM_RBUTTONDOWN:
+			Globals::mouseState.rmb = true;
 			break;
 		case WM_RBUTTONUP:
+			Globals::mouseState.rmb = false;
 			break;
 		case WM_LBUTTONDOWN:
+			Globals::mouseState.lmb = true;
 			break;
 		case WM_LBUTTONUP:
+			Globals::mouseState.lmb = false;
 			break;
 		case WM_MBUTTONDOWN:
 			break;
@@ -194,10 +258,12 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 	return 0l;
 }
 
-int APIENTRY WinMain(HINSTANCE hInstance,
-					 HINSTANCE hPrevInstance,
-					 LPSTR lpCmdLine,
-					 int nCmdShow)
+int APIENTRY WinMain(
+	_In_ HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPSTR lpCmdLine,
+	_In_ int nShowCmd
+)
 {
 	const LPCTSTR lpszAppName = "OpenGL window";
 	const int winPosX = 10, winPosY = 10;
@@ -228,7 +294,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 		fullScreen ? WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_POPUP | WS_MAXIMIZE : 
 		WS_OVERLAPPEDWINDOW,
 		winPosX, winPosY,
-		width, height,
+		windowRes.x, windowRes.y,
 		nullptr,
 		nullptr,
 		hInstance,
@@ -241,7 +307,6 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 		return false;
 	}
 
-	tools::RedirectIOToConsole(650, 10);
 	ShowWindow(hWnd, SW_SHOW);
 	
 	MSG msg{};
@@ -256,6 +321,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 		else
 		{
 			HandleKeyboard(keys);
+			HandleMouse();
 			PrepareFrame();
 			SwapBuffers(hDC);
 		}

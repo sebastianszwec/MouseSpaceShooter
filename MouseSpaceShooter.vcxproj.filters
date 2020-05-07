@@ -8,6 +8,9 @@
     <Filter Include="shaders">
       <UniqueIdentifier>{30f22744-b0df-4d96-a79d-41648fcbe4bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="components">
+      <UniqueIdentifier>{c7a6e6d3-fb44-42d3-b461-9bf81521a6c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -19,6 +22,9 @@
     <ClCompile Include="shaders.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="globals.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tools.hpp">
@@ -26,6 +32,18 @@
     </ClInclude>
     <ClInclude Include="shaders.hpp">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="components\mouseState.hpp">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\mvp.hpp">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\screenInfo.hpp">
+      <Filter>components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
