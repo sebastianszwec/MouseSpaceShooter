@@ -74,7 +74,7 @@ void Initialize()
 {
 	if (console)
 	{
-		tools::RedirectIOToConsole({ 800, 10 });
+		tools::RedirectIOToConsole({ 2000, 10 });
 	}
 	ShowCursor(false);
 	OGLInitialize();
@@ -93,12 +93,26 @@ void RenderScene()
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
 }
 
-void PrepareFrame()
+void PrepareFrame(bool focus)
 {
+	if (!focus) return;
+
 	const glm::ivec2 mouseDelta = Globals::mouseState.getMouseDelta();
 	std::cout << mouseDelta.x << " " << mouseDelta.y << std::endl;
 	tools::SetMousePos(Globals::screenInfo.windowCenterInScreenSpace);
 	RenderScene();
+}
+
+void HandleKeyboard(bool const* const keys)
+{
+}
+
+void HandleMouse()
+{
+	POINT mousePos;
+	GetCursorPos(&mousePos);
+	Globals::mouseState.prevPosition = Globals::mouseState.position;
+	Globals::mouseState.position = { mousePos.x, mousePos.y };
 }
 
 void ChangeWindowSize(glm::ivec2 size)
@@ -120,18 +134,6 @@ void WindowLocationInitialized()
 {
 	tools::SetMousePos(Globals::screenInfo.windowCenterInScreenSpace);
 	Globals::mouseState.prevPosition = Globals::mouseState.position = Globals::screenInfo.windowCenterInScreenSpace;
-}
-
-void HandleKeyboard(bool const * const keys)
-{
-}
-
-void HandleMouse()
-{
-	POINT mousePos;
-	GetCursorPos(&mousePos);
-	Globals::mouseState.prevPosition = Globals::mouseState.position;
-	Globals::mouseState.position = { mousePos.x, mousePos.y };
 }
 
 void SetDCPixelFormat(HDC hDC)
@@ -161,6 +163,7 @@ void SetDCPixelFormat(HDC hDC)
 
 static bool keys[256];
 static bool quit;
+static bool focus;
 static HDC hDC;
 
 LRESULT CALLBACK WndProc(
@@ -230,6 +233,13 @@ LRESULT CALLBACK WndProc(
 			}
 			break;
 		}
+		case WM_SETFOCUS:
+			WindowLocationInitialized();
+			focus = true;
+			break;
+		case WM_KILLFOCUS:
+			focus = false;
+			break;
 		case WM_KEYDOWN:
 			keys[wParam] = true;
 			break;
@@ -322,7 +332,7 @@ int APIENTRY WinMain(
 		{
 			HandleKeyboard(keys);
 			HandleMouse();
-			PrepareFrame();
+			PrepareFrame(focus);
 			SwapBuffers(hDC);
 		}
 	}
