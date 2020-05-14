@@ -6,8 +6,6 @@ namespace Components
 {
 	struct Physics
 	{
-		void test()
-		{}
 		b2World world{ {0.0f, 0.0f} };
 	};
 }

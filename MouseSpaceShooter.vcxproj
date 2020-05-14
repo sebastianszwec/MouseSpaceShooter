@@ -25,8 +25,11 @@
     <ClCompile Include="tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="b2Helpers.hpp" />
     <ClInclude Include="components\mouseState.hpp" />
     <ClInclude Include="components\mvp.hpp" />
+    <ClInclude Include="components\physics.hpp" />
+    <ClInclude Include="components\player.hpp" />
     <ClInclude Include="components\screenInfo.hpp" />
     <ClInclude Include="globals.hpp" />
     <ClInclude Include="shaders.hpp" />
@@ -105,7 +108,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\libraries\glew-2.1.0\include;C:\libraries\glm;C:\libraries\Box2D_v2.3.1\Box2D;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\libraries\glew-2.1.0\include;C:\libraries\glm;C:\libraries\Box2D_v2.3.1\Box2D;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -137,7 +140,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\libraries\glew-2.1.0\include;C:\libraries\glm;C:\libraries\Box2D_v2.3.1\Box2D;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\libraries\glew-2.1.0\include;C:\libraries\glm;C:\libraries\Box2D_v2.3.1\Box2D;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>

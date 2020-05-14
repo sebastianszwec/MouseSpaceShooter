@@ -45,6 +45,15 @@
     <ClInclude Include="components\screenInfo.hpp">
       <Filter>src\components</Filter>
     </ClInclude>
+    <ClInclude Include="components\physics.hpp">
+      <Filter>src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\player.hpp">
+      <Filter>src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="b2Helpers.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\basic.fs">

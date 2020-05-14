@@ -20,6 +20,8 @@
 #include "components/mouseState.hpp"
 #include "components/screenInfo.hpp"
 #include "components/mvp.hpp"
+#include "components/physics.hpp"
+#include "components/player.hpp"
 
 const bool fullScreen = false;
 const bool console = true;
@@ -70,6 +72,24 @@ void OGLInitialize()
 		{ {0, "bPos"} });
 }
 
+void PhysicsInitialize()
+{
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(0.0f, 0.0f);
+	bodyDef.angle = 0.0f;
+
+	b2PolygonShape polygonShape;
+	polygonShape.SetAsBox(0.5f, 0.5f);
+
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &polygonShape;
+	fixtureDef.density = 1.0f;
+
+	Globals::player.body.reset(Globals::physics.world.CreateBody(&bodyDef));
+	Globals::player.body->CreateFixture(&fixtureDef);
+}
+
 void Initialize()
 {
 	if (console)
@@ -78,6 +98,7 @@ void Initialize()
 	}
 	ShowCursor(false);
 	OGLInitialize();
+	PhysicsInitialize();
 }
 
 void RenderScene()
@@ -98,8 +119,14 @@ void PrepareFrame(bool focus)
 	if (!focus) return;
 
 	const glm::ivec2 mouseDelta = Globals::mouseState.getMouseDelta();
-	//std::cout << mouseDelta.x << " " << mouseDelta.y << std::endl;
 	tools::SetMousePos(Globals::screenInfo.windowCenterInScreenSpace);
+
+	Globals::player.body->ApplyForce({ 1.0f, 0.0f }, Globals::player.body->GetWorldCenter(), true);
+
+	Globals::physics.world.Step(1.0f / 60, 3, 8);
+
+	std::cout << Globals::player.body->GetWorldCenter().x << ";" << Globals::player.body->GetWorldCenter().y << std::endl;
+
 	RenderScene();
 }
 

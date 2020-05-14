@@ -6,6 +6,7 @@ namespace Components
 	struct ScreenInfo;
 	struct MVP;
 	struct Physics;
+	struct Player;
 }
 
 namespace Globals
@@ -14,4 +15,5 @@ namespace Globals
 	extern Components::ScreenInfo& screenInfo;
 	extern Components::MVP& mvp;
 	extern Components::Physics& physics;
+	extern Components::Player& player;
 }
