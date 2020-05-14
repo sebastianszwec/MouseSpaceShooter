@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29201.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MouseSpaceShooter", "MouseSpaceShooter.vcxproj", "{F06DA511-D923-4671-8616-EB36E0651EB1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3C85B307-3655-4E50-9A40-825FFA47F31B} = {3C85B307-3655-4E50-9A40-825FFA47F31B}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Box2DLib", "..\Box2DLib\Box2DLib.vcxproj", "{3C85B307-3655-4E50-9A40-825FFA47F31B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +26,14 @@ Global
 		{F06DA511-D923-4671-8616-EB36E0651EB1}.Release|x64.Build.0 = Release|x64
 		{F06DA511-D923-4671-8616-EB36E0651EB1}.Release|x86.ActiveCfg = Release|Win32
 		{F06DA511-D923-4671-8616-EB36E0651EB1}.Release|x86.Build.0 = Release|Win32
+		{3C85B307-3655-4E50-9A40-825FFA47F31B}.Debug|x64.ActiveCfg = Debug|x64
+		{3C85B307-3655-4E50-9A40-825FFA47F31B}.Debug|x64.Build.0 = Debug|x64
+		{3C85B307-3655-4E50-9A40-825FFA47F31B}.Debug|x86.ActiveCfg = Debug|Win32
+		{3C85B307-3655-4E50-9A40-825FFA47F31B}.Debug|x86.Build.0 = Debug|Win32
+		{3C85B307-3655-4E50-9A40-825FFA47F31B}.Release|x64.ActiveCfg = Release|x64
+		{3C85B307-3655-4E50-9A40-825FFA47F31B}.Release|x64.Build.0 = Release|x64
+		{3C85B307-3655-4E50-9A40-825FFA47F31B}.Release|x86.ActiveCfg = Release|Win32
+		{3C85B307-3655-4E50-9A40-825FFA47F31B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

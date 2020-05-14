@@ -5,10 +5,10 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="shaders">
+    <Filter Include="src\shaders">
       <UniqueIdentifier>{30f22744-b0df-4d96-a79d-41648fcbe4bc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="components">
+    <Filter Include="src\components">
       <UniqueIdentifier>{c7a6e6d3-fb44-42d3-b461-9bf81521a6c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -37,21 +37,21 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="components\mouseState.hpp">
-      <Filter>components</Filter>
+      <Filter>src\components</Filter>
     </ClInclude>
     <ClInclude Include="components\mvp.hpp">
-      <Filter>components</Filter>
+      <Filter>src\components</Filter>
     </ClInclude>
     <ClInclude Include="components\screenInfo.hpp">
-      <Filter>components</Filter>
+      <Filter>src\components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\basic.fs">
-      <Filter>shaders</Filter>
+      <Filter>src\shaders</Filter>
     </None>
     <None Include="shaders\basic.vs">
-      <Filter>shaders</Filter>
+      <Filter>src\shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

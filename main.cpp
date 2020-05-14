@@ -98,7 +98,7 @@ void PrepareFrame(bool focus)
 	if (!focus) return;
 
 	const glm::ivec2 mouseDelta = Globals::mouseState.getMouseDelta();
-	std::cout << mouseDelta.x << " " << mouseDelta.y << std::endl;
+	//std::cout << mouseDelta.x << " " << mouseDelta.y << std::endl;
 	tools::SetMousePos(Globals::screenInfo.windowCenterInScreenSpace);
 	RenderScene();
 }
