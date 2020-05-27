@@ -11,6 +11,7 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/vector_angle.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 #include "shaders.hpp"
@@ -64,7 +65,7 @@ void PhysicsInitialize()
 	bodyDef.angle = 0.0f;
 
 	const float playerSize = 1.0f;
-	const b2Vec2 playerTriangle[3] = { {0.0f, 0.0f}, {-playerSize / 2.0f, -playerSize}, {playerSize / 2.0f, -playerSize} };
+	const b2Vec2 playerTriangle[3] = { {0.0f, playerSize}, {-playerSize / 2.0f, -playerSize / 2.0f}, {playerSize / 2.0f, -playerSize / 2.0f} };
 	b2PolygonShape polygonShape;
 	polygonShape.Set(playerTriangle, 3);
 
@@ -100,11 +101,30 @@ void RenderScene()
 	glDrawArrays(GL_TRIANGLES, 0, Globals::player.verticesCache.size());
 }
 
+b2Vec2 operator *(const b2Vec2 v, const float s)
+{
+	return {v.x * s, v.y * s};
+}
+
 void PreparePlayerInFrame(const glm::vec2& mouseDelta)
 {
-	std::cout << mouseDelta.x << ";" << mouseDelta.y << std::endl;
+	if (glm::length(mouseDelta) > 20)
+	{
+		const auto normalizedMouseDelta = glm::normalize(mouseDelta);
+		const float targetAngle = glm::orientedAngle(glm::vec2(0.0f, 1.0f), normalizedMouseDelta);
 
-	Globals::player.body->SetTransform(Globals::player.body->GetPosition(), 0.0f);
+		Globals::player.body->SetTransform(Globals::player.body->GetPosition(), targetAngle);
+		std::cout << targetAngle << std::endl;
+	}
+
+	if (Globals::mouseState.rmb)
+	{
+		const float force = 10.0f;
+		const float currentAngle = Globals::player.body->GetAngle() + glm::half_pi<float>();
+
+		Globals::player.body->ApplyForce(b2Vec2(glm::cos(currentAngle),
+			glm::sin(currentAngle)) * force, Globals::player.body->GetWorldCenter(), true);
+	}
 }
 
 void PrepareFrame(bool focus)
