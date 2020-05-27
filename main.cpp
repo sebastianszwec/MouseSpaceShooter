@@ -27,18 +27,6 @@ const bool fullScreen = false;
 const bool console = true;
 const glm::ivec2 windowRes = { 800, 800 };
 
-const std::vector<glm::vec3> vertices = {
-	{-1, -1, 0},
-	{1, -1, 0},
-	{-1, 1, 0},
-	{1, 1, 0}
-};
-
-const std::vector<unsigned> indices = {
-	0, 1, 2,
-	1, 2, 3
-};
-
 shaders::ProgramId program;
 GLuint vertexArray;
 
@@ -52,21 +40,17 @@ void OGLInitialize()
 
 	glCreateVertexArrays(1, &vertexArray);
 	glBindVertexArray(vertexArray);
+
 	GLuint vertexBuffer;
 	glGenBuffers(1, &vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices.front()), vertices.data(), GL_STATIC_DRAW);
+
+	Globals::player.updateVerticesCache();
+	glBufferData(GL_ARRAY_BUFFER, Globals::player.verticesCache.size() * sizeof(Globals::player.verticesCache.front()), Globals::player.verticesCache.data(), GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glEnableVertexAttribArray(0);
 
-	GLuint elementBuffer;
-	glGenBuffers(1, &elementBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(indices.front()), indices.data(), GL_STATIC_DRAW);
-	glBindVertexArray(0);
-
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	program = shaders::LinkProgram(shaders::CompileShaders("shaders/basic.vs", "shaders/basic.fs"),
 		{ {0, "bPos"} });
@@ -79,8 +63,10 @@ void PhysicsInitialize()
 	bodyDef.position.Set(0.0f, 0.0f);
 	bodyDef.angle = 0.0f;
 
+	const float playerSize = 1.0f;
+	const b2Vec2 playerTriangle[3] = { {0.0f, 0.0f}, {-playerSize / 2.0f, -playerSize}, {playerSize / 2.0f, -playerSize} };
 	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(0.5f, 0.5f);
+	polygonShape.Set(playerTriangle, 3);
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &polygonShape;
@@ -97,8 +83,8 @@ void Initialize()
 		tools::RedirectIOToConsole({ 2000, 10 });
 	}
 	ShowCursor(false);
-	OGLInitialize();
 	PhysicsInitialize();
+	OGLInitialize();
 }
 
 void RenderScene()
@@ -107,11 +93,10 @@ void RenderScene()
 
 	glUseProgram(program);
 	glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE,
-		glm::value_ptr(Globals::mvp.getVP()));
+		glm::value_ptr(Globals::mvp.getMVP(Globals::player.getModelMatrix())));
 
 	glBindVertexArray(vertexArray);
-
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
+	glDrawArrays(GL_TRIANGLES, 0, Globals::player.verticesCache.size());
 }
 
 void PrepareFrame(bool focus)
