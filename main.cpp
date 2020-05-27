@@ -74,6 +74,7 @@ void PhysicsInitialize()
 
 	Globals::player.body.reset(Globals::physics.world.CreateBody(&bodyDef));
 	Globals::player.body->CreateFixture(&fixtureDef);
+	Globals::player.body->SetFixedRotation(true);
 }
 
 void Initialize()
@@ -99,18 +100,23 @@ void RenderScene()
 	glDrawArrays(GL_TRIANGLES, 0, Globals::player.verticesCache.size());
 }
 
+void PreparePlayerInFrame(const glm::vec2& mouseDelta)
+{
+	std::cout << mouseDelta.x << ";" << mouseDelta.y << std::endl;
+
+	Globals::player.body->SetTransform(Globals::player.body->GetPosition(), 0.0f);
+}
+
 void PrepareFrame(bool focus)
 {
 	if (!focus) return;
 
 	const glm::ivec2 mouseDelta = Globals::mouseState.getMouseDelta();
-	tools::SetMousePos(Globals::screenInfo.windowCenterInScreenSpace);
+	const glm::vec2 gameSpaceMouseDelta = { mouseDelta.x, -mouseDelta.y };
 
-	Globals::player.body->ApplyForce({ 1.0f, 0.0f }, Globals::player.body->GetWorldCenter(), true);
+	PreparePlayerInFrame(gameSpaceMouseDelta);
 
 	Globals::physics.world.Step(1.0f / 60, 3, 8);
-
-	std::cout << Globals::player.body->GetWorldCenter().x << ";" << Globals::player.body->GetWorldCenter().y << std::endl;
 
 	RenderScene();
 }
@@ -123,8 +129,12 @@ void HandleMouse()
 {
 	POINT mousePos;
 	GetCursorPos(&mousePos);
-	Globals::mouseState.prevPosition = Globals::mouseState.position;
+	const auto prevPosition = Globals::mouseState.position;
 	Globals::mouseState.position = { mousePos.x, mousePos.y };
+	Globals::mouseState.delta = Globals::mouseState.position - prevPosition;
+	
+	tools::SetMousePos(Globals::screenInfo.windowCenterInScreenSpace);
+	Globals::mouseState.position = Globals::screenInfo.windowCenterInScreenSpace;
 }
 
 void ChangeWindowSize(glm::ivec2 size)
@@ -145,7 +155,7 @@ void ChangeWindowLocation(glm::ivec2 location)
 void WindowLocationInitialized()
 {
 	tools::SetMousePos(Globals::screenInfo.windowCenterInScreenSpace);
-	Globals::mouseState.prevPosition = Globals::mouseState.position = Globals::screenInfo.windowCenterInScreenSpace;
+	Globals::mouseState.position = Globals::screenInfo.windowCenterInScreenSpace;
 }
 
 void SetDCPixelFormat(HDC hDC)
