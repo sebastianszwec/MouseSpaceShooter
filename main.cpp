@@ -27,6 +27,7 @@
 const bool fullScreen = false;
 const bool console = true;
 const glm::ivec2 windowRes = { 800, 800 };
+const float mouseSensitivity = 0.01f;
 
 shaders::ProgramId program;
 GLuint vertexArray;
@@ -112,13 +113,14 @@ b2Vec2 operator *(const b2Vec2 v, const float s)
 
 void PreparePlayerInFrame(const glm::vec2& mouseDelta)
 {
-	if (glm::length(mouseDelta) > 20)
+	if (glm::length(mouseDelta) > 0)
 	{
-		const auto normalizedMouseDelta = glm::normalize(mouseDelta);
-		const float targetAngle = glm::orientedAngle(glm::vec2(1.0f, 0.0f), normalizedMouseDelta);
+		const float playerAngle = Globals::player.body->GetAngle();
+		const float playerSideAngle = playerAngle + glm::half_pi<float>();
+		const glm::vec2 playerDirection = { std::cos(playerSideAngle), std::sin(playerSideAngle) };
+		const float dot = glm::dot(playerDirection, mouseDelta);
 
-		Globals::player.body->SetTransform(Globals::player.body->GetPosition(), targetAngle);
-		std::cout << targetAngle << std::endl;
+		Globals::player.body->SetTransform(Globals::player.body->GetPosition(), playerAngle + dot * mouseSensitivity);
 	}
 
 	if (Globals::mouseState.rmb)
