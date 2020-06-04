@@ -8,13 +8,8 @@
 #include <gl/gl.h>
 
 #include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/vector_angle.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
-#include "shaders.hpp"
 #include "tools.hpp"
 #include "globals.hpp"
 
@@ -22,15 +17,12 @@
 #include "components/screenInfo.hpp"
 #include "components/mvp.hpp"
 #include "components/physics.hpp"
-#include "components/player.hpp"
 
-const bool fullScreen = false;
+#include "systems/player.hpp"
+
+const bool fullScreen = true;
 const bool console = true;
 const glm::ivec2 windowRes = { 800, 800 };
-const float mouseSensitivity = 0.01f;
-
-shaders::ProgramId program;
-GLuint vertexArray;
 
 void OGLInitialize()
 {
@@ -39,110 +31,31 @@ void OGLInitialize()
 
 	//glEnable(GL_DEPTH_TEST);
 	glClearColor(0, 0, 0, 1);
-
-	glCreateVertexArrays(1, &vertexArray);
-	glBindVertexArray(vertexArray);
-
-	GLuint vertexBuffer;
-	glGenBuffers(1, &vertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-
-	Globals::player.updateVerticesCache();
-	glBufferData(GL_ARRAY_BUFFER, Globals::player.verticesCache.size() * sizeof(Globals::player.verticesCache.front()), Globals::player.verticesCache.data(), GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-	glEnableVertexAttribArray(0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	program = shaders::LinkProgram(shaders::CompileShaders("shaders/basic.vs", "shaders/basic.fs"),
-		{ {0, "bPos"} });
-}
-
-void PhysicsInitialize()
-{
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(0.0f, 0.0f);
-	bodyDef.angle = 0.0f;
-
-	const float playerSize = 1.0f;
-	const b2Vec2 playerTriangle[3] = {
-		{ playerSize, 0 },
-		{ -playerSize / 2.0f, playerSize / 2.0f },
-		{ -playerSize / 2.0f, -playerSize / 2.0f } 
-	};
-	b2PolygonShape polygonShape;
-	polygonShape.Set(playerTriangle, 3);
-
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &polygonShape;
-	fixtureDef.density = 1.0f;
-
-	Globals::player.body.reset(Globals::physics.world.CreateBody(&bodyDef));
-	Globals::player.body->CreateFixture(&fixtureDef);
-	Globals::player.body->SetFixedRotation(true);
 }
 
 void Initialize()
 {
-	if (console)
-	{
-		tools::RedirectIOToConsole({ 2000, 10 });
-	}
+	if (console) tools::RedirectIOToConsole({ 2000, 10 });
 	ShowCursor(false);
-	PhysicsInitialize();
 	OGLInitialize();
+
+	Globals::Systems::Initialize();
 }
 
 void RenderScene()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glUseProgram(program);
-	glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE,
-		glm::value_ptr(Globals::mvp.getMVP(Globals::player.getModelMatrix())));
-
-	glBindVertexArray(vertexArray);
-	glDrawArrays(GL_TRIANGLES, 0, Globals::player.verticesCache.size());
-}
-
-b2Vec2 operator *(const b2Vec2 v, const float s)
-{
-	return {v.x * s, v.y * s};
-}
-
-void PreparePlayerInFrame(const glm::vec2& mouseDelta)
-{
-	if (glm::length(mouseDelta) > 0)
-	{
-		const float playerAngle = Globals::player.body->GetAngle();
-		const float playerSideAngle = playerAngle + glm::half_pi<float>();
-		const glm::vec2 playerDirection = { std::cos(playerSideAngle), std::sin(playerSideAngle) };
-		const float dot = glm::dot(playerDirection, mouseDelta);
-
-		Globals::player.body->SetTransform(Globals::player.body->GetPosition(), playerAngle + dot * mouseSensitivity);
-	}
-
-	if (Globals::mouseState.rmb)
-	{
-		const float force = 10.0f;
-		const float currentAngle = Globals::player.body->GetAngle();
-
-		Globals::player.body->ApplyForce(b2Vec2(glm::cos(currentAngle),
-			glm::sin(currentAngle)) * force, Globals::player.body->GetWorldCenter(), true);
-	}
+	Globals::Systems::AccessPlayer().render();
 }
 
 void PrepareFrame(bool focus)
 {
 	if (!focus) return;
 
-	const glm::ivec2 mouseDelta = Globals::mouseState.getMouseDelta();
-	const glm::vec2 gameSpaceMouseDelta = { mouseDelta.x, -mouseDelta.y };
+	Globals::Systems::AccessPlayer().step();
 
-	PreparePlayerInFrame(gameSpaceMouseDelta);
-
-	Globals::physics.world.Step(1.0f / 60, 3, 8);
+	Globals::Components::physics.world.Step(1.0f / 60, 3, 8);
 
 	RenderScene();
 }
@@ -153,35 +66,45 @@ void HandleKeyboard(bool const* const keys)
 
 void HandleMouse()
 {
+	using namespace Globals::Components;
+
 	POINT mousePos;
 	GetCursorPos(&mousePos);
-	const auto prevPosition = Globals::mouseState.position;
-	Globals::mouseState.position = { mousePos.x, mousePos.y };
-	Globals::mouseState.delta = Globals::mouseState.position - prevPosition;
+	const auto prevPosition = mouseState.position;
+	mouseState.position = { mousePos.x, mousePos.y };
+	mouseState.delta = mouseState.position - prevPosition;
 	
-	tools::SetMousePos(Globals::screenInfo.windowCenterInScreenSpace);
-	Globals::mouseState.position = Globals::screenInfo.windowCenterInScreenSpace;
+	tools::SetMousePos(screenInfo.windowCenterInScreenSpace);
+	mouseState.position = screenInfo.windowCenterInScreenSpace;
 }
 
 void ChangeWindowSize(glm::ivec2 size)
 {
-	Globals::screenInfo.windowSize = { size.x, size.y };
+	using namespace Globals::Components;
+	using namespace Globals::Defaults;
+
+	const float ratio = (float)size.x / size.y;
+
+	screenInfo.windowSize = { size.x, size.y };
 
 	glViewport(0, 0, size.x, size.y);
 
-	const float ratio = (float)size.x / size.y;
-	Globals::mvp.projection = glm::ortho(-10.0f * ratio, 10.0f * ratio, -10.0f, 10.0f);
+	mvp.projection = glm::ortho(-hProjectionSize * ratio, hProjectionSize * ratio, -hProjectionSize, hProjectionSize);
 }
 
 void ChangeWindowLocation(glm::ivec2 location)
 {
-	Globals::screenInfo.windowCenterInScreenSpace = { location + Globals::screenInfo.windowSize / 2 };
+	using namespace Globals::Components;
+
+	screenInfo.windowCenterInScreenSpace = { location + screenInfo.windowSize / 2 };
 }
 
 void WindowLocationInitialized()
 {
-	tools::SetMousePos(Globals::screenInfo.windowCenterInScreenSpace);
-	Globals::mouseState.position = Globals::screenInfo.windowCenterInScreenSpace;
+	using namespace Globals::Components;
+
+	tools::SetMousePos(screenInfo.windowCenterInScreenSpace);
+	mouseState.position = screenInfo.windowCenterInScreenSpace;
 }
 
 void SetDCPixelFormat(HDC hDC)
@@ -220,6 +143,8 @@ LRESULT CALLBACK WndProc(
 	WPARAM wParam,
 	LPARAM lParam)
 {
+	using namespace Globals::Components;
+
 	static HGLRC hRC;
 	static bool locationInitialized = false;
 	static bool firstSize = true;
@@ -295,16 +220,16 @@ LRESULT CALLBACK WndProc(
 			keys[wParam] = false;
 			break;
 		case WM_RBUTTONDOWN:
-			Globals::mouseState.rmb = true;
+			mouseState.rmb = true;
 			break;
 		case WM_RBUTTONUP:
-			Globals::mouseState.rmb = false;
+			mouseState.rmb = false;
 			break;
 		case WM_LBUTTONDOWN:
-			Globals::mouseState.lmb = true;
+			mouseState.lmb = true;
 			break;
 		case WM_LBUTTONUP:
-			Globals::mouseState.lmb = false;
+			mouseState.lmb = false;
 			break;
 		case WM_MBUTTONDOWN:
 			break;

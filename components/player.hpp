@@ -14,7 +14,7 @@ namespace Components
 	struct Player
 	{
 		std::unique_ptr<b2Body, b2BodyDeleter> body;
-		std::array<glm::vec3, 3> verticesCache;
+		std::array<glm::vec3, 3> verticesCache{};
 		
 		void updateVerticesCache()
 		{

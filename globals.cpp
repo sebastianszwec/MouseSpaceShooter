@@ -1,23 +1,46 @@
+#include <memory>
+
 #include "components/mouseState.hpp"
 #include "components/screenInfo.hpp"
 #include "components/mvp.hpp"
 #include "components/physics.hpp"
 #include "components/player.hpp"
 
-namespace
+#include "systems/player.hpp"
+
+
+namespace Components
 {
-	Components::MouseState mouseState;
-	Components::ScreenInfo screenInfo;
-	Components::MVP mvp;
-	Components::Physics physics;
-	Components::Player player;
+	static ::Components::MouseState mouseState;
+	static ::Components::ScreenInfo screenInfo;
+	static ::Components::MVP mvp;
+	static ::Components::Physics physics;
+	static ::Components::Player player;
 }
 
 namespace Globals
 {
-	Components::MouseState& mouseState = ::mouseState;
-	Components::ScreenInfo& screenInfo = ::screenInfo;
-	Components::MVP& mvp = ::mvp;
-	Components::Physics& physics = ::physics;
-	Components::Player& player = ::player;
+	namespace Components
+	{
+		::Components::MouseState& mouseState = ::Components::mouseState;
+		::Components::ScreenInfo& screenInfo = ::Components::screenInfo;
+		::Components::MVP& mvp = ::Components::mvp;
+		::Components::Physics& physics = ::Components::physics;
+		::Components::Player& player = ::Components::player;
+	}
+
+	namespace Systems
+	{
+		std::unique_ptr<::Systems::Player> player;
+
+		void Initialize()
+		{
+			player = std::make_unique<::Systems::Player>();
+		}
+
+		::Systems::Player& AccessPlayer()
+		{
+			return *player;
+		}
+	}
 }
