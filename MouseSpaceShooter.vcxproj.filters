@@ -31,6 +31,9 @@
     <ClCompile Include="systems\player.cpp">
       <Filter>src\systems</Filter>
     </ClCompile>
+    <ClCompile Include="systems\level.cpp">
+      <Filter>src\systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tools.hpp">
@@ -61,6 +64,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="systems\player.hpp">
+      <Filter>src\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\level.hpp">
       <Filter>src\systems</Filter>
     </ClInclude>
   </ItemGroup>

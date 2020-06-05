@@ -7,7 +7,7 @@
 #include "components/player.hpp"
 
 #include "systems/player.hpp"
-
+#include "systems/level.hpp"
 
 namespace Components
 {
@@ -32,15 +32,22 @@ namespace Globals
 	namespace Systems
 	{
 		std::unique_ptr<::Systems::Player> player;
+		std::unique_ptr<::Systems::Level> level;
 
 		void Initialize()
 		{
 			player = std::make_unique<::Systems::Player>();
+			level = std::make_unique<::Systems::Level>();
 		}
 
 		::Systems::Player& AccessPlayer()
 		{
 			return *player;
+		}
+
+		::Systems::Level& AccessLevel()
+		{
+			return *level;
 		}
 	}
 }

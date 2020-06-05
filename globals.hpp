@@ -12,6 +12,7 @@ namespace Components
 namespace Systems
 {
 	class Player;
+	class Level;
 }
 
 namespace Globals
@@ -30,6 +31,7 @@ namespace Globals
 		void Initialize();
 
 		::Systems::Player& AccessPlayer();
+		::Systems::Level& AccessLevel();
 	}
 
 	namespace Defaults
