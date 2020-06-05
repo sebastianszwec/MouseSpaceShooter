@@ -6,6 +6,7 @@
 #include "components/physics.hpp"
 #include "components/player.hpp"
 
+#include "systems/physics.hpp"
 #include "systems/player.hpp"
 #include "systems/level.hpp"
 
@@ -31,13 +32,20 @@ namespace Globals
 
 	namespace Systems
 	{
+		std::unique_ptr<::Systems::Physics> physics;
 		std::unique_ptr<::Systems::Player> player;
 		std::unique_ptr<::Systems::Level> level;
 
 		void Initialize()
 		{
+			physics = std::make_unique<::Systems::Physics>();
 			player = std::make_unique<::Systems::Player>();
 			level = std::make_unique<::Systems::Level>();
+		}
+
+		::Systems::Physics& AccessPhysics()
+		{
+			return *physics;
 		}
 
 		::Systems::Player& AccessPlayer()

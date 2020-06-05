@@ -11,6 +11,7 @@ namespace Components
 
 namespace Systems
 {
+	class Physics;
 	class Player;
 	class Level;
 }
@@ -30,6 +31,7 @@ namespace Globals
 	{
 		void Initialize();
 
+		::Systems::Physics& AccessPhysics();
 		::Systems::Player& AccessPlayer();
 		::Systems::Level& AccessLevel();
 	}

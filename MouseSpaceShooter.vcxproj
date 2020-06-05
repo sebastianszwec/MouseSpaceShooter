@@ -23,6 +23,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="shaders.cpp" />
     <ClCompile Include="systems\level.cpp" />
+    <ClCompile Include="systems\physics.cpp" />
     <ClCompile Include="systems\player.cpp" />
     <ClCompile Include="tools.cpp" />
   </ItemGroup>
@@ -36,6 +37,7 @@
     <ClInclude Include="globals.hpp" />
     <ClInclude Include="shaders.hpp" />
     <ClInclude Include="systems\level.hpp" />
+    <ClInclude Include="systems\physics.hpp" />
     <ClInclude Include="systems\player.hpp" />
     <ClInclude Include="tools.hpp" />
   </ItemGroup>

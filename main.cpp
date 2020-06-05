@@ -16,9 +16,9 @@
 #include "components/mouseState.hpp"
 #include "components/screenInfo.hpp"
 #include "components/mvp.hpp"
-#include "components/physics.hpp"
 
 #include "systems/player.hpp"
+#include "systems/physics.hpp"
 
 const bool fullScreen = true;
 const bool console = true;
@@ -54,8 +54,7 @@ void PrepareFrame(bool focus)
 	if (!focus) return;
 
 	Globals::Systems::AccessPlayer().step();
-
-	Globals::Components::physics.world.Step(1.0f / 60, 3, 8);
+	Globals::Systems::AccessPhysics().step();
 
 	RenderScene();
 }
