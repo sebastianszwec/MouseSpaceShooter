@@ -34,6 +34,7 @@
     <ClInclude Include="components\physics.hpp" />
     <ClInclude Include="components\player.hpp" />
     <ClInclude Include="components\screenInfo.hpp" />
+    <ClInclude Include="components\wall.hpp" />
     <ClInclude Include="globals.hpp" />
     <ClInclude Include="shaders.hpp" />
     <ClInclude Include="systems\level.hpp" />

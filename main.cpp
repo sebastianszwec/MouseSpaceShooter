@@ -16,11 +16,14 @@
 #include "components/mouseState.hpp"
 #include "components/screenInfo.hpp"
 #include "components/mvp.hpp"
+#include "components/wall.hpp"
+#include <components/physics.hpp>
 
+#include "systems/level.hpp"
 #include "systems/player.hpp"
 #include "systems/physics.hpp"
 
-const bool fullScreen = true;
+const bool fullScreen = false;
 const bool console = true;
 const glm::ivec2 windowRes = { 800, 800 };
 
@@ -30,7 +33,27 @@ void OGLInitialize()
 	assert(GLEW_OK == glewInitResult);
 
 	//glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_CULL_FACE);
 	glClearColor(0, 0, 0, 1);
+}
+
+//Temporary way of creating level.
+void CreateLevel()
+{
+	using namespace Globals::Components;
+
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_staticBody;
+	bodyDef.position.Set(10.0f, 0.0f);
+	bodyDef.angle = 0.0f;
+	staticWalls.emplace_back(physics.world.CreateBody(&bodyDef));
+
+	b2FixtureDef fixtureDef;
+	b2PolygonShape polygonShape;
+	polygonShape.SetAsBox(0.5f, 10);
+	fixtureDef.shape = &polygonShape;
+	fixtureDef.density = 1.0f;
+	staticWalls.back().body->CreateFixture(&fixtureDef);
 }
 
 void Initialize()
@@ -40,12 +63,15 @@ void Initialize()
 	OGLInitialize();
 
 	Globals::Systems::Initialize();
+
+	CreateLevel();
 }
 
 void RenderScene()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	Globals::Systems::AccessLevel().render();
 	Globals::Systems::AccessPlayer().render();
 }
 
@@ -53,7 +79,9 @@ void PrepareFrame(bool focus)
 {
 	if (!focus) return;
 
+	Globals::Systems::AccessLevel().step();
 	Globals::Systems::AccessPlayer().step();
+
 	Globals::Systems::AccessPhysics().step();
 
 	RenderScene();

@@ -1,5 +1,7 @@
 #include "player.hpp"
 
+#include <Box2D/Box2D.h>
+
 #include <glm/gtc/type_ptr.hpp>
 
 #include <globals.hpp>
@@ -30,7 +32,9 @@ namespace Systems
 		bodyDef.type = b2_dynamicBody;
 		bodyDef.position.Set(0.0f, 0.0f);
 		bodyDef.angle = 0.0f;
+		player.body.reset(physics.world.CreateBody(&bodyDef));
 
+		b2FixtureDef fixtureDef;
 		const float playerSize = 1.0f;
 		const b2Vec2 playerTriangle[3] = {
 			{ playerSize, 0 },
@@ -39,14 +43,13 @@ namespace Systems
 		};
 		b2PolygonShape polygonShape;
 		polygonShape.Set(playerTriangle, 3);
-
-		b2FixtureDef fixtureDef;
 		fixtureDef.shape = &polygonShape;
 		fixtureDef.density = 1.0f;
-
-		player.body.reset(physics.world.CreateBody(&bodyDef));
 		player.body->CreateFixture(&fixtureDef);
+
+		player.body->SetSleepingAllowed(false);
 		player.body->SetFixedRotation(true);
+		//player.body->SetLinearDamping(0.2f);
 	}
 
 	void Player::initGraphics()
@@ -59,16 +62,13 @@ namespace Systems
 		glCreateVertexArrays(1, &vertexArray);
 		glBindVertexArray(vertexArray);
 
-		GLuint vertexBuffer;
 		glGenBuffers(1, &vertexBuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 
 		player.updateVerticesCache();
-		glBufferData(GL_ARRAY_BUFFER, player.verticesCache.size() * sizeof(player.verticesCache.front()), player.verticesCache.data(), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, player.verticesCache.size() * sizeof(player.verticesCache.front()), player.verticesCache.data(), GL_DYNAMIC_DRAW);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 		glEnableVertexAttribArray(0);
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	void Player::step() const

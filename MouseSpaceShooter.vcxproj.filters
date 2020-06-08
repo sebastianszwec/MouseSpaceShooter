@@ -75,6 +75,9 @@
     <ClInclude Include="systems\physics.hpp">
       <Filter>src\systems</Filter>
     </ClInclude>
+    <ClInclude Include="components\wall.hpp">
+      <Filter>src\components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\basic.fs">

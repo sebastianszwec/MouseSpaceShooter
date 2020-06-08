@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 namespace Components
 {
 	struct MouseState;
@@ -7,6 +9,7 @@ namespace Components
 	struct MVP;
 	struct Physics;
 	struct Player;
+	struct Wall;
 }
 
 namespace Systems
@@ -25,6 +28,8 @@ namespace Globals
 		extern ::Components::MVP& mvp;
 		extern ::Components::Physics& physics;
 		extern ::Components::Player& player;
+
+		extern std::vector<::Components::Wall>& staticWalls;
 	}
 
 	namespace Systems

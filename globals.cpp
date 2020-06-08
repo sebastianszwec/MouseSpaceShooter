@@ -1,10 +1,12 @@
 #include <memory>
+#include <vector>
 
 #include "components/mouseState.hpp"
 #include "components/screenInfo.hpp"
 #include "components/mvp.hpp"
 #include "components/physics.hpp"
 #include "components/player.hpp"
+#include "components/wall.hpp"
 
 #include "systems/physics.hpp"
 #include "systems/player.hpp"
@@ -17,6 +19,8 @@ namespace Components
 	static ::Components::MVP mvp;
 	static ::Components::Physics physics;
 	static ::Components::Player player;
+
+	static std::vector<::Components::Wall> staticWalls;
 }
 
 namespace Globals
@@ -28,6 +32,8 @@ namespace Globals
 		::Components::MVP& mvp = ::Components::mvp;
 		::Components::Physics& physics = ::Components::physics;
 		::Components::Player& player = ::Components::player;
+
+		std::vector<::Components::Wall>& staticWalls = ::Components::staticWalls;
 	}
 
 	namespace Systems

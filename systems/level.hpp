@@ -1,5 +1,9 @@
 #pragma once
 
+#include <vector>
+
+#include <glm/vec3.hpp>
+
 #include "shaders.hpp"
 
 namespace Systems
@@ -9,7 +13,7 @@ namespace Systems
 	public:
 		Level();
 
-		void step() const;
+		void step();
 		void render() const;
 
 	private:
@@ -19,5 +23,7 @@ namespace Systems
 		shaders::ProgramId shadersProgram;
 		GLuint vertexArray;
 		GLuint vertexBuffer;
+
+		std::vector<glm::vec3> staticWallsVerticesCache;
 	};
 }
