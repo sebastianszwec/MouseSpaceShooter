@@ -14,12 +14,12 @@
     <Filter Include="src\systems">
       <UniqueIdentifier>{83222453-6afd-4810-a186-56bb3c3082a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\tools">
+      <UniqueIdentifier>{bcc7b15d-f579-4bbd-966d-93ce50f1465f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="tools.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="shaders.cpp">
@@ -37,11 +37,11 @@
     <ClCompile Include="systems\physics.cpp">
       <Filter>src\systems</Filter>
     </ClCompile>
+    <ClCompile Include="tools\utility.cpp">
+      <Filter>src\tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="tools.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="shaders.hpp">
       <Filter>src</Filter>
     </ClInclude>
@@ -77,6 +77,9 @@
     </ClInclude>
     <ClInclude Include="components\wall.hpp">
       <Filter>src\components</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\utility.hpp">
+      <Filter>src\tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

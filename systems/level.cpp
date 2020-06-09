@@ -56,7 +56,7 @@ namespace Systems
 		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 
 		glBufferData(GL_ARRAY_BUFFER, staticWallsVerticesCache.size() * sizeof(staticWallsVerticesCache.front()),
-			staticWallsVerticesCache.data(), GL_STATIC_DRAW);
+			staticWallsVerticesCache.data(), GL_DYNAMIC_DRAW);
 	}
 
 	void Level::render() const

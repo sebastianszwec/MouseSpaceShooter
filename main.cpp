@@ -10,18 +10,19 @@
 #include <glm/vec2.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "tools.hpp"
 #include "globals.hpp"
 
 #include "components/mouseState.hpp"
 #include "components/screenInfo.hpp"
 #include "components/mvp.hpp"
 #include "components/wall.hpp"
-#include <components/physics.hpp>
+#include "components/physics.hpp"
 
 #include "systems/level.hpp"
 #include "systems/player.hpp"
 #include "systems/physics.hpp"
+
+#include "tools/utility.hpp"
 
 const bool fullScreen = false;
 const bool console = true;
