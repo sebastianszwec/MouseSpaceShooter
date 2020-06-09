@@ -20,7 +20,7 @@ namespace Components
 	static ::Components::Physics physics;
 	static ::Components::Player player;
 
-	static std::vector<::Components::Wall> staticWalls;
+	static std::vector<::Components::Wall> walls;
 }
 
 namespace Globals
@@ -33,7 +33,7 @@ namespace Globals
 		::Components::Physics& physics = ::Components::physics;
 		::Components::Player& player = ::Components::player;
 
-		std::vector<::Components::Wall>& staticWalls = ::Components::staticWalls;
+		std::vector<::Components::Wall>& walls = ::Components::walls;
 	}
 
 	namespace Systems

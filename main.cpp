@@ -43,18 +43,7 @@ void CreateLevel()
 {
 	using namespace Globals::Components;
 
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_staticBody;
-	bodyDef.position.Set(10.0f, 0.0f);
-	bodyDef.angle = 0.0f;
-	staticWalls.emplace_back(physics.world.CreateBody(&bodyDef));
-
-	b2FixtureDef fixtureDef;
-	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(0.5f, 10);
-	fixtureDef.shape = &polygonShape;
-	fixtureDef.density = 1.0f;
-	staticWalls.back().body->CreateFixture(&fixtureDef);
+	walls.emplace_back(tools::CreateBoxBody({ 5.0f, 0.0f }, { 0.5f, 10.0f }, 0.0f));
 }
 
 void Initialize()

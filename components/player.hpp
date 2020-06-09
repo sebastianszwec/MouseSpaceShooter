@@ -7,7 +7,7 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <b2Helpers.hpp>
+#include <tools/b2Helpers.hpp>
 
 namespace Components
 {

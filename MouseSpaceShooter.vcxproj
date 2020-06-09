@@ -25,10 +25,10 @@
     <ClCompile Include="systems\level.cpp" />
     <ClCompile Include="systems\physics.cpp" />
     <ClCompile Include="systems\player.cpp" />
+    <ClCompile Include="tools\b2Helpers.cpp" />
     <ClCompile Include="tools\utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="b2Helpers.hpp" />
     <ClInclude Include="components\mouseState.hpp" />
     <ClInclude Include="components\mvp.hpp" />
     <ClInclude Include="components\physics.hpp" />
@@ -40,6 +40,7 @@
     <ClInclude Include="systems\level.hpp" />
     <ClInclude Include="systems\physics.hpp" />
     <ClInclude Include="systems\player.hpp" />
+    <ClInclude Include="tools\b2Helpers.hpp" />
     <ClInclude Include="tools\utility.hpp" />
   </ItemGroup>
   <ItemGroup>

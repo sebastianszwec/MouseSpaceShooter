@@ -29,7 +29,7 @@ namespace Globals
 		extern ::Components::Physics& physics;
 		extern ::Components::Player& player;
 
-		extern std::vector<::Components::Wall>& staticWalls;
+		extern std::vector<::Components::Wall>& walls;
 	}
 
 	namespace Systems

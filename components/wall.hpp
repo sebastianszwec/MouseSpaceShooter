@@ -1,14 +1,17 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 
-#include <b2Helpers.hpp>
+#include <Box2D/Box2D.h>
+
+#include <tools/b2Helpers.hpp>
 
 namespace Components
 {
 	struct Wall
 	{
-		Wall(b2Body* body): body(body)
+		Wall(std::unique_ptr<b2Body, b2BodyDeleter> body): body(std::move(body))
 		{
 		}
 

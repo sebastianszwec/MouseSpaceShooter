@@ -40,6 +40,9 @@
     <ClCompile Include="tools\utility.cpp">
       <Filter>src\tools</Filter>
     </ClCompile>
+    <ClCompile Include="tools\b2Helpers.cpp">
+      <Filter>src\tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shaders.hpp">
@@ -63,9 +66,6 @@
     <ClInclude Include="components\player.hpp">
       <Filter>src\components</Filter>
     </ClInclude>
-    <ClInclude Include="b2Helpers.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="systems\player.hpp">
       <Filter>src\systems</Filter>
     </ClInclude>
@@ -79,6 +79,9 @@
       <Filter>src\components</Filter>
     </ClInclude>
     <ClInclude Include="tools\utility.hpp">
+      <Filter>src\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\b2Helpers.hpp">
       <Filter>src\tools</Filter>
     </ClInclude>
   </ItemGroup>

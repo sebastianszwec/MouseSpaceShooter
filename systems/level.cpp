@@ -44,19 +44,19 @@ namespace Systems
 	{
 		using namespace Globals::Components;
 
-		staticWallsVerticesCache.clear();
-		for (auto& staticWall : staticWalls)
+		wallsVerticesCache.clear();
+		for (auto& wall : walls)
 		{
-			staticWall.body->SetTransform(staticWall.body->GetPosition(), staticWall.body->GetAngle() + 0.01f);
-			staticWall.updateVerticesCache();
-			staticWallsVerticesCache.insert(staticWallsVerticesCache.end(), staticWall.verticesCache.begin(), staticWall.verticesCache.end());
+			//wall.body->SetTransform(wall.body->GetPosition(), wall.body->GetAngle() + 0.01f);
+			wall.updateVerticesCache();
+			wallsVerticesCache.insert(wallsVerticesCache.end(), wall.verticesCache.begin(), wall.verticesCache.end());
 		}
 
 		glBindVertexArray(vertexArray);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 
-		glBufferData(GL_ARRAY_BUFFER, staticWallsVerticesCache.size() * sizeof(staticWallsVerticesCache.front()),
-			staticWallsVerticesCache.data(), GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, wallsVerticesCache.size() * sizeof(wallsVerticesCache.front()),
+			wallsVerticesCache.data(), GL_DYNAMIC_DRAW);
 	}
 
 	void Level::render() const
@@ -66,6 +66,6 @@ namespace Systems
 			glm::value_ptr(Globals::Components::mvp.getVP()));
 
 		glBindVertexArray(vertexArray);
-		glDrawArrays(GL_TRIANGLES, 0, staticWallsVerticesCache.size());
+		glDrawArrays(GL_TRIANGLES, 0, wallsVerticesCache.size());
 	}
 }

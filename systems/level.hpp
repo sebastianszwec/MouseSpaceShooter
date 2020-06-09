@@ -24,6 +24,6 @@ namespace Systems
 		GLuint vertexArray;
 		GLuint vertexBuffer;
 
-		std::vector<glm::vec3> staticWallsVerticesCache;
+		std::vector<glm::vec3> wallsVerticesCache;
 	};
 }
