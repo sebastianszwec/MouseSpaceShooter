@@ -31,4 +31,17 @@ namespace tools
 
 		return body;
 	}
+
+	void PinBodies(b2Body& body1, b2Body& body2, glm::vec2 pinPoint, bool collideConnected)
+	{
+		using namespace Globals::Components;
+
+		b2RevoluteJointDef revoluteJointDef;
+		revoluteJointDef.bodyA = &body1;
+		revoluteJointDef.bodyB = &body2;
+		revoluteJointDef.localAnchorA = body1.GetLocalPoint({ pinPoint.x, pinPoint.y });
+		revoluteJointDef.localAnchorB = body2.GetLocalPoint({ pinPoint.x, pinPoint.y });
+		revoluteJointDef.collideConnected = collideConnected;
+		physics.world.CreateJoint(&revoluteJointDef);
+	}
 }

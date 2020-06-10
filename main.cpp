@@ -38,12 +38,20 @@ void OGLInitialize()
 	glClearColor(0, 0, 0, 1);
 }
 
-//Temporary way of creating level.
 void CreateLevel()
 {
 	using namespace Globals::Components;
 
-	walls.emplace_back(tools::CreateBoxBody({ 5.0f, 0.0f }, { 0.5f, 10.0f }, 0.0f));
+	//Static walls.
+	walls.emplace_back(tools::CreateBoxBody({ -20.0f, 0.0f }, { 0.2f, 20.0f }));
+	walls.emplace_back(tools::CreateBoxBody({ 20.0f, 0.0f }, { 0.2f, 20.0f }));
+	walls.emplace_back(tools::CreateBoxBody({ 0.0f, -20.0f }, { 20.0f, 0.2f }));
+	walls.emplace_back(tools::CreateBoxBody({ 0.0f, 20.0f }, { 20.0f, 0.2f }));
+
+	//Dynamic walls.
+	auto& wall1 = *walls.emplace_back(tools::CreateBoxBody({ 5.0f, -5.0f }, { 0.5f, 5.0f }, 0.0f, b2_dynamicBody, 0.2f)).body;
+	auto& wall2 = *walls.emplace_back(tools::CreateBoxBody({ 5.0f, 5.0f }, { 0.5f, 5.0f }, 0.0f, b2_dynamicBody, 0.2f)).body;
+	tools::PinBodies(wall1, wall2, {5.0f, 0.0f});
 }
 
 void Initialize()

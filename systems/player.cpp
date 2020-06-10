@@ -78,24 +78,8 @@ namespace Systems
 		const glm::ivec2 windowSpaceMouseDelta = mouseState.getMouseDelta();
 		const glm::vec2 mouseDelta = { windowSpaceMouseDelta.x, -windowSpaceMouseDelta.y };
 
-		if (glm::length(mouseDelta) > 0)
-		{
-			const float playerAngle = player.body->GetAngle();
-			const float playerSideAngle = playerAngle + glm::half_pi<float>();
-			const glm::vec2 playerDirection = { std::cos(playerSideAngle), std::sin(playerSideAngle) };
-			const float dot = glm::dot(playerDirection, mouseDelta);
-
-			player.body->SetTransform(player.body->GetPosition(), playerAngle + dot * Globals::Defaults::mouseSensitivity);
-		}
-
-		if (mouseState.rmb)
-		{
-			const float force = 10.0f;
-			const float currentAngle = player.body->GetAngle();
-
-			player.body->ApplyForce(b2Vec2(glm::cos(currentAngle),
-				glm::sin(currentAngle)) * force, player.body->GetWorldCenter(), true);
-		}
+		turn(mouseDelta);
+		throttle(mouseState.rmb);
 	}
 
 	void Player::render() const
@@ -106,5 +90,34 @@ namespace Systems
 
 		glBindVertexArray(vertexArray);
 		glDrawArrays(GL_TRIANGLES, 0, Globals::Components::player.verticesCache.size());
+	}
+
+	void Player::turn(glm::vec2 mouseDelta) const
+	{
+		using namespace Globals::Components;
+
+		if (glm::length(mouseDelta) > 0)
+		{
+			const float playerAngle = player.body->GetAngle();
+			const float playerSideAngle = playerAngle + glm::half_pi<float>();
+			const glm::vec2 playerDirection = { std::cos(playerSideAngle), std::sin(playerSideAngle) };
+			const float dot = glm::dot(playerDirection, mouseDelta);
+
+			player.body->SetTransform(player.body->GetPosition(), playerAngle + dot * Globals::Defaults::mouseSensitivity);
+		}
+	}
+
+	void Player::throttle(bool rmb) const
+	{
+		using namespace Globals::Components;
+
+		if (rmb)
+		{
+			const float force = 10.0f;
+			const float currentAngle = player.body->GetAngle();
+
+			player.body->ApplyForce(b2Vec2(glm::cos(currentAngle),
+				glm::sin(currentAngle)) * force, player.body->GetWorldCenter(), true);
+		}
 	}
 }
