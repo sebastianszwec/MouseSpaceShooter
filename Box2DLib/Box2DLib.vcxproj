@@ -18,6 +18,54 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Collision\b2BroadPhase.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Collision\b2CollideCircle.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Collision\b2CollideEdge.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Collision\b2CollidePolygon.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Collision\b2Collision.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Collision\b2Distance.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Collision\b2DynamicTree.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Collision\b2TimeOfImpact.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Collision\Shapes\b2ChainShape.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Collision\Shapes\b2CircleShape.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Collision\Shapes\b2EdgeShape.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Collision\Shapes\b2PolygonShape.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Common\b2BlockAllocator.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Common\b2Draw.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Common\b2Math.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Common\b2Settings.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Common\b2StackAllocator.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Common\b2Timer.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\b2Body.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\b2ContactManager.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\b2Fixture.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\b2Island.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\b2World.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\b2WorldCallbacks.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Contacts\b2CircleContact.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Contacts\b2Contact.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Contacts\b2ContactSolver.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Contacts\b2PolygonContact.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Joints\b2DistanceJoint.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Joints\b2FrictionJoint.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Joints\b2GearJoint.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Joints\b2Joint.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Joints\b2MotorJoint.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Joints\b2MouseJoint.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Joints\b2PrismaticJoint.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Joints\b2PulleyJoint.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Joints\b2RevoluteJoint.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Joints\b2RopeJoint.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Joints\b2WeldJoint.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Dynamics\Joints\b2WheelJoint.cpp" />
+    <ClCompile Include="C:\libraries\box2d-2.3.1\Box2D\Box2D\Rope\b2Rope.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{3C85B307-3655-4E50-9A40-825FFA47F31B}</ProjectGuid>
@@ -89,7 +137,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\libraries\Box2D_v2.3.1\Box2D;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\libraries\box2d-2.3.1\Box2D;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -117,7 +165,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\libraries\Box2D_v2.3.1\Box2D;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\libraries\box2d-2.3.1\Box2D;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -143,54 +191,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Collision\b2BroadPhase.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Collision\b2CollideCircle.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Collision\b2CollideEdge.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Collision\b2CollidePolygon.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Collision\b2Collision.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Collision\b2Distance.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Collision\b2DynamicTree.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Collision\b2TimeOfImpact.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Collision\Shapes\b2ChainShape.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Collision\Shapes\b2CircleShape.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Collision\Shapes\b2EdgeShape.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Collision\Shapes\b2PolygonShape.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Common\b2BlockAllocator.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Common\b2Draw.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Common\b2Math.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Common\b2Settings.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Common\b2StackAllocator.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Common\b2Timer.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\b2Body.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\b2ContactManager.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\b2Fixture.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\b2Island.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\b2World.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\b2WorldCallbacks.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Contacts\b2CircleContact.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Contacts\b2Contact.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Contacts\b2ContactSolver.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Contacts\b2PolygonContact.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Joints\b2DistanceJoint.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Joints\b2FrictionJoint.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Joints\b2GearJoint.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Joints\b2Joint.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Joints\b2MotorJoint.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Joints\b2MouseJoint.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Joints\b2PrismaticJoint.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Joints\b2PulleyJoint.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Joints\b2RevoluteJoint.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Joints\b2RopeJoint.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Joints\b2WeldJoint.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Dynamics\Joints\b2WheelJoint.cpp" />
-    <ClCompile Include="C:\libraries\Box2D_v2.3.1\Box2D\Box2D\Rope\b2Rope.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
