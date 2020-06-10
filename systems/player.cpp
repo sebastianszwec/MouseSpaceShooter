@@ -45,11 +45,13 @@ namespace Systems
 		polygonShape.Set(playerTriangle, 3);
 		fixtureDef.shape = &polygonShape;
 		fixtureDef.density = 1.0f;
+		fixtureDef.restitution = 0.1f;
 		player.body->CreateFixture(&fixtureDef);
 
 		player.body->SetSleepingAllowed(false);
-		player.body->SetFixedRotation(true);
-		//player.body->SetLinearDamping(0.2f);
+
+		player.body->SetAngularDamping(10.0f);
+		player.body->SetLinearDamping(0.1f);
 	}
 
 	void Player::initGraphics()
@@ -113,7 +115,7 @@ namespace Systems
 
 		if (rmb)
 		{
-			const float force = 10.0f;
+			const float force = 15.0f;
 			const float currentAngle = player.body->GetAngle();
 
 			player.body->ApplyForce(b2Vec2(glm::cos(currentAngle),

@@ -51,6 +51,8 @@ void CreateLevel()
 	//Dynamic walls.
 	auto& wall1 = *walls.emplace_back(tools::CreateBoxBody({ 5.0f, -5.0f }, { 0.5f, 5.0f }, 0.0f, b2_dynamicBody, 0.2f)).body;
 	auto& wall2 = *walls.emplace_back(tools::CreateBoxBody({ 5.0f, 5.0f }, { 0.5f, 5.0f }, 0.0f, b2_dynamicBody, 0.2f)).body;
+	wall1.GetFixtureList()->SetRestitution(1);
+	wall2.GetFixtureList()->SetRestitution(1);
 	tools::PinBodies(wall1, wall2, {5.0f, 0.0f});
 }
 
