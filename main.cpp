@@ -17,6 +17,7 @@
 #include "components/mvp.hpp"
 #include "components/wall.hpp"
 #include "components/physics.hpp"
+#include "components/player.hpp"
 
 #include "systems/level.hpp"
 #include "systems/player.hpp"
@@ -41,6 +42,9 @@ void OGLInitialize()
 void CreateLevel()
 {
 	using namespace Globals::Components;
+
+	//Player configuration.
+	player.setPosition({ -10.0f, 0.0f });
 
 	//Static walls.
 	walls.emplace_back(tools::CreateBoxBody({ -20.0f, 0.0f }, { 0.2f, 20.0f }));

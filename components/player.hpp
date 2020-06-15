@@ -16,6 +16,22 @@ namespace Components
 		std::unique_ptr<b2Body, b2BodyDeleter> body;
 		std::array<glm::vec3, 3> verticesCache{};
 		
+		void setPosition(const glm::vec2& position)
+		{
+			body->SetTransform({ position.x, position.y }, body->GetAngle());
+		}
+
+		void setRotation(float angle)
+		{
+			body->SetTransform(body->GetPosition(), angle);
+		}
+
+		void resetKinematic()
+		{
+			body->SetLinearVelocity({ 0.0f, 0.0f });
+			body->SetAngularVelocity(0.0f);
+		}
+
 		void updateVerticesCache()
 		{
 			const auto& fixture = *body->GetFixtureList();
