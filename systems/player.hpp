@@ -20,7 +20,7 @@ namespace Systems
 		void initGraphics();
 
 		void turn(glm::vec2 mouseDelta) const;
-		void move(Components::MouseState mouseState) const;
+		void accelerate(Components::MouseState mouseState) const;
 		void throttle(bool rmb) const;
 
 		shaders::ProgramId shadersProgram;

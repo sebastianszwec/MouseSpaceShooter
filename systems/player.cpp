@@ -80,7 +80,7 @@ namespace Systems
 		const glm::vec2 mouseDelta = { windowSpaceMouseDelta.x, -windowSpaceMouseDelta.y };
 
 		turn(mouseDelta);
-		move(mouseState);
+		accelerate(mouseState);
 		//throttle(mouseState.rmb);
 	}
 
@@ -109,14 +109,14 @@ namespace Systems
 		}
 	}
 
-	void Player::move(Components::MouseState mouseState) const
+	void Player::accelerate(Components::MouseState mouseState) const
 	{
 		using namespace Globals::Components;
 		using namespace Globals::Defaults;
 
 		if (mouseState.rmb || mouseState.lmb)
 		{
-			const float force = mouseState.lmb ? thrust : -thrust;
+			const float force = mouseState.lmb ? thrust : reverse;
 			const float currentAngle = player.body->GetAngle();
 
 			player.body->ApplyForce(b2Vec2(glm::cos(currentAngle),
