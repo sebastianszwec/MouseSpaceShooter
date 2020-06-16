@@ -45,5 +45,6 @@ namespace Globals
 	{
 		constexpr float mouseSensitivity = 0.01f;
 		constexpr float hProjectionSize = 25.0f;
+		constexpr float thrust = 15.0f;
 	}
 }

@@ -60,6 +60,28 @@ void CreateLevel()
 	tools::PinBodies(wall1, wall2, {5.0f, 0.0f});
 }
 
+void CreateLevelRace()
+{
+	using namespace Globals::Components;
+
+	//Player configuration.
+	player.setPosition({ 15.0f, -10.0f });
+	player.setRotation(1.57);
+
+	//Static walls.
+	walls.emplace_back(tools::CreateBoxBody({ -20.0f, 0.0f }, { 0.2f, 20.0f }));
+	walls.emplace_back(tools::CreateBoxBody({ 20.0f, 0.0f }, { 0.2f, 20.0f }));
+	walls.emplace_back(tools::CreateBoxBody({ 0.0f, -20.0f }, { 20.0f, 0.2f }));
+	walls.emplace_back(tools::CreateBoxBody({ 0.0f, 20.0f }, { 20.0f, 0.2f }));
+
+	float wallDistance = 10.0f;
+
+	for (int i = 0; i < 4; ++i)
+	{
+		walls.emplace_back(tools::CreateBoxBody({ -20.0f + wallDistance * (float)i, 0.0f }, { 0.2f, 15.0f }));
+	}
+}
+
 void Initialize()
 {
 	if (console) tools::RedirectIOToConsole({ 2000, 10 });
@@ -68,7 +90,8 @@ void Initialize()
 
 	Globals::Systems::Initialize();
 
-	CreateLevel();
+	//CreateLevel();
+	CreateLevelRace();
 }
 
 void RenderScene()

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "shaders.hpp"
+#include "components/mouseState.hpp"
 
 #include <glm/vec2.hpp>
 
@@ -19,6 +20,7 @@ namespace Systems
 		void initGraphics();
 
 		void turn(glm::vec2 mouseDelta) const;
+		void move(Components::MouseState mouseState) const;
 		void throttle(bool rmb) const;
 
 		shaders::ProgramId shadersProgram;

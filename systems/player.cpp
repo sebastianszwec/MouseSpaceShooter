@@ -9,7 +9,6 @@
 #include <components/player.hpp>
 #include <components/physics.hpp>
 #include <components/mvp.hpp>
-#include <components/mouseState.hpp>
 
 b2Vec2 operator *(const b2Vec2 v, const float s)
 {
@@ -81,7 +80,8 @@ namespace Systems
 		const glm::vec2 mouseDelta = { windowSpaceMouseDelta.x, -windowSpaceMouseDelta.y };
 
 		turn(mouseDelta);
-		throttle(mouseState.rmb);
+		move(mouseState);
+		//throttle(mouseState.rmb);
 	}
 
 	void Player::render() const
@@ -106,6 +106,21 @@ namespace Systems
 			const float dot = glm::dot(playerDirection, mouseDelta);
 
 			player.body->SetTransform(player.body->GetPosition(), playerAngle + dot * Globals::Defaults::mouseSensitivity);
+		}
+	}
+
+	void Player::move(Components::MouseState mouseState) const
+	{
+		using namespace Globals::Components;
+		using namespace Globals::Defaults;
+
+		if (mouseState.rmb || mouseState.lmb)
+		{
+			const float force = mouseState.lmb ? thrust : -thrust;
+			const float currentAngle = player.body->GetAngle();
+
+			player.body->ApplyForce(b2Vec2(glm::cos(currentAngle),
+				glm::sin(currentAngle)) * force, player.body->GetWorldCenter(), true);
 		}
 	}
 
